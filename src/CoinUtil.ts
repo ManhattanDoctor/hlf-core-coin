@@ -136,4 +136,3 @@ interface IUidDecomposition {
     decimals: number;
     ownerUid: string;
 }
-
