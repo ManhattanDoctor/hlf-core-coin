@@ -5,6 +5,7 @@ import { Type } from 'class-transformer';
 import { CoinUtil } from "./CoinUtil";
 import * as _ from 'lodash';
 
+
 export class Coin implements ICoin {
     // --------------------------------------------------------------------------
     //
