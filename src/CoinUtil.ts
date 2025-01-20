@@ -21,8 +21,8 @@ export class CoinUtil {
     public static UID_REG_EXP = new RegExp(`^${CoinUtil.PREFIX}/${CoinUtil.OWNER_UID_PATTERN}/${CoinUtil.DECIMALS_PATTERN}/${CoinUtil.COIN_ID_PATTERN}$`);
     public static COIN_ID_REG_EXP = new RegExp(`^${CoinUtil.COIN_ID_PATTERN}$`);
     public static OWNER_UID_REG_EXP = new RegExp(`^${CoinUtil.OWNER_UID_PATTERN}$`);
-    public static OBJECT_UID_REG_EXP = new RegExp(`^${CoinUtil.DECIMALS_PATTERN}$`);
-    public static DECIMALS_UID_REG_EXP = new RegExp(`^${CoinUtil.OBJECT_UID_PATTERN}$`);
+    public static OBJECT_UID_REG_EXP = new RegExp(`^${CoinUtil.OBJECT_UID_PATTERN}$`);
+    public static DECIMALS_UID_REG_EXP = new RegExp(`^${CoinUtil.DECIMALS_PATTERN}$`);
 
     // --------------------------------------------------------------------------
     //
@@ -45,7 +45,7 @@ export class CoinUtil {
         return { coinUid: coin.uid, value };
     }
 
-    public static isUser(uid: UID): boolean {
+    public static isCoin(uid: UID): boolean {
         return CoinUtil.UID_REG_EXP.test(getUid(uid));
     }
 

@@ -17,7 +17,8 @@
     },
     "license": "ISC",
     "dependencies": {
-        "@hlf-core/common": "~3.2.0"
+        "@hlf-core/common": "~3.2.0",
+        "fancy-log": "^2.0.0"
     },
     "devDependencies": {
         "@types/node": "^14.14.31",
