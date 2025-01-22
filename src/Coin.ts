@@ -1,11 +1,11 @@
 import { IUIDable } from "@ts-core/common";
 import { CoinBalance, ICoinBalance } from "./CoinBalance";
-import { IsDefined, Matches } from 'class-validator';
+import { IsDefined, IsOptional, Matches } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CoinUtil } from "./CoinUtil";
 import * as _ from 'lodash';
 
-export class Coin implements ICoin {
+export class Coin<T extends ICoinBalance = ICoinBalance> implements ICoin<T> {
     // --------------------------------------------------------------------------
     //
     //  Static Properties
@@ -23,9 +23,10 @@ export class Coin implements ICoin {
     @Matches(CoinUtil.UID_REG_EXP)
     public uid: string;
 
+    @IsOptional()
     @Type(() => CoinBalance)
     @IsDefined()
-    public balance: CoinBalance;
+    public balance: T;
 }
 
 

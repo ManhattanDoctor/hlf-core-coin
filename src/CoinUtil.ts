@@ -13,7 +13,10 @@ export class CoinUtil {
     // --------------------------------------------------------------------------
 
     public static PREFIX = 'coin';
-    public static COIN_ID_PATTERN = '[A-Z]{1,10}';
+    public static COIN_ID_MIN = 1;
+    public static COIN_ID_MAX = 64;
+
+    public static COIN_ID_PATTERN = `[A-Z0-9.\_\-\/]{${CoinUtil.COIN_ID_MIN},${CoinUtil.COIN_ID_MAX}}`;
     public static DECIMALS_PATTERN = '[0-9]*';
     public static OWNER_UID_PATTERN = '[A-Za-z0-9/]*';
     public static OBJECT_UID_PATTERN = '[A-Za-z0-9/]*';

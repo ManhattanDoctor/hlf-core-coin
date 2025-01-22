@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, IsNumberString } from 'class-validator';
 
 export interface ICoinAmount {
     value: string;
@@ -6,7 +6,7 @@ export interface ICoinAmount {
 }
 
 export class CoinAmount implements ICoinAmount {
-    @IsString()
+    @IsNumberString()
     value: string;
 
     @IsString()
