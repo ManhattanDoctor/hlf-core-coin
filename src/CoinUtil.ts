@@ -1,7 +1,4 @@
-import { ClassType, getUid, MathUtil, MathUtilConfig, UID } from '@ts-core/common';
-import { ICoin } from './Coin';
-import { CoinBalance } from './CoinBalance';
-import { ICoinAmount } from './CoinAmount';
+import { getUid, MathUtil, MathUtilConfig, UID } from '@ts-core/common';
 import * as _ from 'lodash';
 
 export class CoinUtil {
@@ -16,12 +13,12 @@ export class CoinUtil {
     public static COIN_ID_MIN = 1;
     public static COIN_ID_MAX = 64;
 
-    public static COIN_ID_PATTERN = `[A-Z0-9.\_\-\/]{${CoinUtil.COIN_ID_MIN},${CoinUtil.COIN_ID_MAX}}`;
+    public static COIN_ID_PATTERN = `[A-Za-z0-9.]{${CoinUtil.COIN_ID_MIN},${CoinUtil.COIN_ID_MAX}}`;
     public static DECIMALS_PATTERN = '[0-9]*';
-    public static OWNER_UID_PATTERN = '[A-Za-z0-9/]*';
-    public static OBJECT_UID_PATTERN = '[A-Za-z0-9/]*';
+    public static OWNER_UID_PATTERN = '[A-Za-z0-9_]*';
+    public static OBJECT_UID_PATTERN = '[A-Za-z0-9_]*';
 
-    public static UID_REG_EXP = new RegExp(`^${CoinUtil.PREFIX}/${CoinUtil.OWNER_UID_PATTERN}/${CoinUtil.DECIMALS_PATTERN}/${CoinUtil.COIN_ID_PATTERN}$`);
+    public static UID_REG_EXP = new RegExp(`^${CoinUtil.PREFIX}_${CoinUtil.OWNER_UID_PATTERN}_${CoinUtil.DECIMALS_PATTERN}_${CoinUtil.COIN_ID_PATTERN}$`);
     public static COIN_ID_REG_EXP = new RegExp(`^${CoinUtil.COIN_ID_PATTERN}$`);
     public static OWNER_UID_REG_EXP = new RegExp(`^${CoinUtil.OWNER_UID_PATTERN}$`);
     public static OBJECT_UID_REG_EXP = new RegExp(`^${CoinUtil.OBJECT_UID_PATTERN}$`);
@@ -33,19 +30,8 @@ export class CoinUtil {
     //
     // --------------------------------------------------------------------------
 
-    public static create<T extends ICoin>(classType: ClassType<T>, coinId: string, decimals: number, owner: UID): T {
-        let item = new classType();
-        item.uid = CoinUtil.createUid(coinId, decimals, owner);
-        item.balance = CoinBalance.create();
-        return item;
-    }
-
     public static createUid(coinId: string, decimals: number, owner: UID): string {
-        return `${CoinUtil.PREFIX}/${getUid(owner)}/${decimals}/${coinId}`;
-    }
-
-    public static createAmount(value: string, coin: ICoin): ICoinAmount {
-        return { coinUid: coin.uid, value };
+        return `${CoinUtil.PREFIX}_${getUid(owner)}_${decimals}_${coinId}`;
     }
 
     public static isCoin(uid: UID): boolean {
@@ -62,28 +48,20 @@ export class CoinUtil {
         return ownerUid;
     }
 
-    public static getCoinDecimals(coin: UID): number {
+    public static getDecimals(coin: UID): number {
         let { decimals } = CoinUtil.decomposeUid(coin);
         return decimals;
     }
 
-    // --------------------------------------------------------------------------
-    //
-    //  Private Methods
-    //
-    // --------------------------------------------------------------------------
-
-    private static decomposeUid(coin: UID): IUidDecomposition {
-        let item = { coinId: null, decimals: null, ownerUid: null };
+    public static decomposeUid(coin: UID): ICoinUidDecomposition {
         let uid = getUid(coin);
-        if (!_.isEmpty(uid)) {
-            let array = uid.split('/');
-            let length = array.length;
-            item.coinId = array[length - 1];
-            item.ownerUid = `${array[1]}/${array[2]}`;
-            item.decimals = parseInt(array[length - 2])
+        let array = uid.split('_');
+        let length = array.length;
+        return {
+            coinId: array[length - 1],
+            decimals: parseInt(array[length - 2]),
+            ownerUid: array.slice(1, length - 2).join('_')
         }
-        return item;
     }
 
     // --------------------------------------------------------------------------
@@ -134,7 +112,7 @@ export class CoinUtil {
     }
 }
 
-interface IUidDecomposition {
+export interface ICoinUidDecomposition {
     coinId: string;
     decimals: number;
     ownerUid: string;
