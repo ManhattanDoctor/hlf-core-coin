@@ -1,4 +1,4 @@
-import { IUIDable } from "@ts-core/common";
+import { ClassType, IUIDable, UID } from "@ts-core/common";
 import { CoinBalance, ICoinBalance } from "./CoinBalance";
 import { IsDefined, IsOptional, Matches } from 'class-validator';
 import { Type } from 'class-transformer';

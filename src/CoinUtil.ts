@@ -1,4 +1,5 @@
-import { getUid, MathUtil, MathUtilConfig, UID } from '@ts-core/common';
+import { ClassType, getUid, MathUtil, MathUtilConfig, UID } from '@ts-core/common';
+import { ICoin } from './Coin';
 import * as _ from 'lodash';
 
 export class CoinUtil {
@@ -30,6 +31,12 @@ export class CoinUtil {
     //
     // --------------------------------------------------------------------------
 
+    public static create<T extends ICoin>(classType: ClassType<T>, coinId: string, decimals: number, owner: UID): T {
+        let item = new classType();
+        item.uid = CoinUtil.createUid(coinId, decimals, owner);
+        return item;
+    }
+    
     public static createUid(coinId: string, decimals: number, owner: UID): string {
         return `${CoinUtil.PREFIX}_${getUid(owner)}_${decimals}_${coinId}`;
     }
@@ -37,6 +44,12 @@ export class CoinUtil {
     public static isCoin(uid: UID): boolean {
         return CoinUtil.UID_REG_EXP.test(getUid(uid));
     }
+
+    // --------------------------------------------------------------------------
+    //
+    //  Decomposition Methods
+    //
+    // --------------------------------------------------------------------------
 
     public static getCoinId<T = string>(coin: UID): T {
         let { coinId } = CoinUtil.decomposeUid(coin);
