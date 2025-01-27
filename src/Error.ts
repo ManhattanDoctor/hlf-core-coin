@@ -1,13 +1,7 @@
 import { ExtendedError } from '@ts-core/common';
 import * as _ from 'lodash';
 
-export class Error<C, D = any> extends ExtendedError<D, C | ErrorCode> {
-    // --------------------------------------------------------------------------
-    //
-    //  Constructor
-    //
-    // --------------------------------------------------------------------------
-
+class Error<C, D = any> extends ExtendedError<D, C | ErrorCode> {
     constructor(code: C | ErrorCode, message: string = '', details?: D) {
         super(message, code, details);
     }

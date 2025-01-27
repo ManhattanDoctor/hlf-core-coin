@@ -1,6 +1,6 @@
-import { ClassType, IUIDable, UID } from "@ts-core/common";
+import { IUIDable } from "@ts-core/common";
 import { CoinBalance, ICoinBalance } from "./CoinBalance";
-import { IsDefined, IsOptional, Matches } from 'class-validator';
+import { IsOptional, Matches, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CoinUtil } from "./CoinUtil";
 import * as _ from 'lodash';
@@ -25,7 +25,7 @@ export class Coin<T extends ICoinBalance = ICoinBalance> implements ICoin<T> {
 
     @IsOptional()
     @Type(() => CoinBalance)
-    @IsDefined()
+    @ValidateNested()
     public balance: T;
 }
 
