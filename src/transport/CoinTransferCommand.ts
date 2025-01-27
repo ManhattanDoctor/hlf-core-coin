@@ -26,6 +26,7 @@ export class CoinTransferCommand extends HlfTransportCommandAsync<ICoinTransferD
 
 export interface ICoinTransferDto {
     to: string;
+    from: string;
     amount: string;
     coinUid: string;
 }
@@ -33,6 +34,9 @@ export interface ICoinTransferDto {
 class CoinTransferDto implements ICoinTransferDto {
     @Matches(CoinUtil.OBJECT_UID_REG_EXP)
     to: string;
+
+    @Matches(CoinUtil.OBJECT_UID_REG_EXP)
+    from: string;
 
     @IsNumberString()
     amount: string;

@@ -1,4 +1,4 @@
-import { IsNumberString } from 'class-validator';
+import { IsString, IsNumberString, IsOptional } from 'class-validator';
 import { MathUtil } from '@ts-core/common';
 import { CoinAccount, ICoinAccount } from './CoinAccount';
 import * as _ from 'lodash';
@@ -22,6 +22,14 @@ export class CoinBalance extends CoinAccount {
     //  Properties
     //
     // --------------------------------------------------------------------------
+
+    @IsOptional()
+    @IsString()
+    declare public uid: string;
+
+    @IsOptional()
+    @IsString()
+    declare public ownerUid: string;
 
     @IsNumberString()
     public burned: string;

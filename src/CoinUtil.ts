@@ -36,7 +36,6 @@ export class CoinUtil {
         let item = new classType();
         item.uid = CoinUtil.createUid(coinId, decimals, owner);
         item.balance = CoinBalance.create();
-        item.balance.ownerUid = item.uid;
         return item;
     }
 
