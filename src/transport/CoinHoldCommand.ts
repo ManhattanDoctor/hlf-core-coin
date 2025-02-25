@@ -32,11 +32,11 @@ export interface ICoinHoldDto {
 
 export class CoinHoldDto implements ICoinHoldDto {
     @Matches(CoinUtil.OBJECT_UID_REG_EXP)
-    from: string;
+    public from: string;
 
     @IsNumberString()
-    amount: string;
+    public amount: string;
 
     @Matches(CoinUtil.UID_REG_EXP)
-    coinUid: string;
+    public coinUid: string;
 }

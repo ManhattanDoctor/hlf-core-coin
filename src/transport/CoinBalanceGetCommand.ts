@@ -41,10 +41,10 @@ export interface ICoinBalanceGetDto {
     objectUid: string;
 }
 
-class CoinBalanceGetDto implements ICoinBalanceGetDto {
+export class CoinBalanceGetDto implements ICoinBalanceGetDto {
     @Matches(CoinUtil.UID_REG_EXP)
-    coinUid: string;
+    public coinUid: string;
 
     @Matches(CoinUtil.OBJECT_UID_REG_EXP)
-    objectUid: string;
+    public objectUid: string;
 }

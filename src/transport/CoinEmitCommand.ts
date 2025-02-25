@@ -33,15 +33,15 @@ export interface ICoinEmitDto {
 
 export class CoinEmitDto {
     @IsNumberString()
-    amount: string;
+    public amount: string;
 
     @Matches(CoinUtil.UID_REG_EXP)
-    coinUid: string;
+    public coinUid: string;
 
     @Matches(CoinUtil.OBJECT_UID_REG_EXP)
-    objectUid: string;
+    public objectUid: string;
 
     @IsString()
     @IsOptional()
-    transactionHash?: string;
+    public transactionHash?: string;
 }

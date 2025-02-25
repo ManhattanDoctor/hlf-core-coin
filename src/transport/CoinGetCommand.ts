@@ -41,11 +41,11 @@ export interface ICoinGetDto {
     details?: Array<keyof Coin>;
 }
 
-class CoinGetDto implements ICoinGetDto {
+export class CoinGetDto implements ICoinGetDto {
     @Matches(CoinUtil.UID_REG_EXP)
-    uid: string;
+    public uid: string;
 
     @IsArray()
     @IsOptional()
-    details?: Array<keyof Coin>;
+    public details?: Array<keyof Coin>;
 }
