@@ -3,10 +3,10 @@ import { HlfTransportCommandAsync } from '@hlf-core/common';
 import { IsOptional, Matches, IsArray } from 'class-validator';
 import { CommandName } from './Command';
 import { CoinUtil } from '../CoinUtil';
-import { Coin } from '../Coin';
+import { Coin, ICoin } from '../Coin';
 import * as _ from 'lodash';
 
-export class CoinGetCommand extends HlfTransportCommandAsync<ICoinGetDto, Coin> {
+export class CoinGetCommand<T extends ICoin = ICoin> extends HlfTransportCommandAsync<ICoinGetDto<T>, T> {
     // --------------------------------------------------------------------------
     //
     //  Static Properties
@@ -21,7 +21,7 @@ export class CoinGetCommand extends HlfTransportCommandAsync<ICoinGetDto, Coin> 
     //
     // --------------------------------------------------------------------------
 
-    constructor(request: ICoinGetDto) {
+    constructor(request: ICoinGetDto<T>) {
         super(CoinGetCommand.NAME, TransformUtil.toClass(CoinGetDto, request), null, true);
     }
 
@@ -31,21 +31,21 @@ export class CoinGetCommand extends HlfTransportCommandAsync<ICoinGetDto, Coin> 
     //
     // --------------------------------------------------------------------------
 
-    protected checkResponse(item: Coin): Coin {
-        return TransformUtil.toClass(Coin, item);
+    protected checkResponse(item: T): T {
+        return TransformUtil.toClass(Coin, item) as T;
     }
 }
 
-export interface ICoinGetDto {
+export interface ICoinGetDto<T extends ICoin = ICoin> {
     uid: string;
-    details?: Array<keyof Coin>;
+    details?: Array<keyof T>;
 }
 
-export class CoinGetDto implements ICoinGetDto {
+export class CoinGetDto<T extends ICoin = ICoin> implements ICoinGetDto<T> {
     @Matches(CoinUtil.UID_REG_EXP)
     public uid: string;
 
     @IsArray()
     @IsOptional()
-    public details?: Array<keyof Coin>;
+    public details?: Array<keyof T>;
 }

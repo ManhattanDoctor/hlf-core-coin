@@ -3,10 +3,10 @@ import { Matches } from 'class-validator';
 import { CommandName } from './Command';
 import { CoinUtil } from '../CoinUtil';
 import { HlfTransportCommandAsync } from '@hlf-core/common';
-import { CoinBalance } from '../CoinBalance';
+import { CoinBalance, ICoinBalance } from '../CoinBalance';
 import * as _ from 'lodash';
 
-export class CoinBalanceGetCommand extends HlfTransportCommandAsync<ICoinBalanceGetDto, CoinBalance> {
+export class CoinBalanceGetCommand<T extends ICoinBalance = ICoinBalance> extends HlfTransportCommandAsync<ICoinBalanceGetDto, T> {
     // --------------------------------------------------------------------------
     //
     //  Static Properties
@@ -31,8 +31,8 @@ export class CoinBalanceGetCommand extends HlfTransportCommandAsync<ICoinBalance
     //
     // --------------------------------------------------------------------------
 
-    protected checkResponse(item: CoinBalance): CoinBalance {
-        return TransformUtil.toClass(CoinBalance, item);
+    protected checkResponse(item: T): T {
+        return TransformUtil.toClass(CoinBalance, item) as T;
     }
 }
 
