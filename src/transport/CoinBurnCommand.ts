@@ -3,7 +3,7 @@ import { HlfTransportCommandAsync } from '@hlf-core/common';
 import { CommandName } from './Command';
 import { CoinEmitDto, ICoinEmitDto } from './CoinEmitCommand';
 
-export class CoinBurnCommand extends HlfTransportCommandAsync<ICoinEmitDto, void> {
+export class CoinBurnCommand extends HlfTransportCommandAsync<ICoinBurnDto, void> {
     // --------------------------------------------------------------------------
     //
     //  Public Static Properties
@@ -19,6 +19,10 @@ export class CoinBurnCommand extends HlfTransportCommandAsync<ICoinEmitDto, void
     // --------------------------------------------------------------------------
 
     constructor(request: ICoinEmitDto) {
-        super(CoinBurnCommand.NAME, TransformUtil.toClass(CoinEmitDto, request));
+        super(CoinBurnCommand.NAME, TransformUtil.toClass(CoinBurnDto, request));
     }
 }
+
+export interface ICoinBurnDto extends ICoinEmitDto { }
+
+export class CoinBurnDto extends CoinEmitDto { }

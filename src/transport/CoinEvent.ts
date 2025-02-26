@@ -1,6 +1,7 @@
+import { IInitiatedDto } from '@hlf-core/common';
 import { TransportEvent } from '@ts-core/common';
 
-export interface ICoinEventDto {
+export interface ICoinEventDto extends IInitiatedDto {
     coinUid: string;
 }
 

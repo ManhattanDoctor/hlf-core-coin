@@ -1,6 +1,6 @@
 import { TransformUtil } from '@ts-core/common';
 import { Matches, IsNumberString } from 'class-validator';
-import { HlfTransportCommandAsync } from '@hlf-core/common';
+import { HlfTransportCommandAsync, InitiatedDto } from '@hlf-core/common';
 import { CoinUtil } from '../CoinUtil';
 import { CommandName } from './Command';
 
@@ -24,13 +24,13 @@ export class CoinHoldCommand extends HlfTransportCommandAsync<ICoinHoldDto, void
     }
 }
 
-export interface ICoinHoldDto {
+export interface ICoinHoldDto extends InitiatedDto {
     from: string;
     amount: string;
     coinUid: string;
 }
 
-export class CoinHoldDto implements ICoinHoldDto {
+export class CoinHoldDto extends InitiatedDto implements ICoinHoldDto {
     @Matches(CoinUtil.OBJECT_UID_REG_EXP)
     public from: string;
 
