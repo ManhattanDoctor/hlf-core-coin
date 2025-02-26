@@ -3,7 +3,7 @@ import { CommandName } from './Command';
 import { CoinHoldDto, ICoinHoldDto } from './CoinHoldCommand';
 import { HlfTransportCommandAsync } from '@hlf-core/common';
 
-export class CoinUnholdCommand extends HlfTransportCommandAsync<CoinUnholdDto, void> {
+export class CoinUnholdCommand extends HlfTransportCommandAsync<ICoinUnholdDto, void> {
     // --------------------------------------------------------------------------
     //
     //  Public Static Properties
@@ -23,6 +23,6 @@ export class CoinUnholdCommand extends HlfTransportCommandAsync<CoinUnholdDto, v
     }
 }
 
-export interface CoinUnholdDto extends ICoinHoldDto { }
+export interface ICoinUnholdDto extends ICoinHoldDto { }
 
 export class CoinUnholdDto extends CoinHoldDto { }
