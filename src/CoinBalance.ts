@@ -72,7 +72,6 @@ export class CoinBalance extends CoinAccount {
     public get total(): string {
         return this.getTotal();
     }
-
 }
 
 export interface ICoinBalance extends ICoinAccount {

@@ -3,10 +3,9 @@ import { Matches } from 'class-validator';
 import { CommandName } from './Command';
 import { CoinUtil } from '../CoinUtil';
 import { HlfTransportCommandAsync } from '@hlf-core/common';
-import { CoinBalance, ICoinBalance } from '../CoinBalance';
 import * as _ from 'lodash';
 
-export class CoinBalanceGetCommand<T extends ICoinBalance = ICoinBalance> extends HlfTransportCommandAsync<ICoinBalanceGetDto, T> {
+export class CoinBalanceGetCommand extends HlfTransportCommandAsync<ICoinBalanceGetDto, ICoinBalanceGetDtoResponse> {
     // --------------------------------------------------------------------------
     //
     //  Static Properties
@@ -24,21 +23,17 @@ export class CoinBalanceGetCommand<T extends ICoinBalance = ICoinBalance> extend
     constructor(request: ICoinBalanceGetDto) {
         super(CoinBalanceGetCommand.NAME, TransformUtil.toClass(CoinBalanceGetDto, request), null, true);
     }
-
-    // --------------------------------------------------------------------------
-    //
-    //  Protected Methods
-    //
-    // --------------------------------------------------------------------------
-
-    protected checkResponse(item: T): T {
-        return TransformUtil.toClass(CoinBalance, item) as T;
-    }
 }
 
 export interface ICoinBalanceGetDto {
     coinUid: string;
     objectUid: string;
+}
+
+export interface ICoinBalanceGetDtoResponse {
+    held: string;
+    inUse: string;
+    total: string;
 }
 
 export class CoinBalanceGetDto implements ICoinBalanceGetDto {
