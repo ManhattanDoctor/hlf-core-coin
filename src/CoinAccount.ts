@@ -1,37 +1,11 @@
 
-import { getUid, MathUtil, UID, IUIDable } from '@ts-core/common';
+import { MathUtil, IUIDable } from '@ts-core/common';
 import { IsString, IsNumberString } from 'class-validator';
 import { CoinAmountMustBeGranterThanZeroError, CoinBalanceMustBeGranterThanAmountError } from './Error';
 import * as _ from 'lodash';
 
 export class CoinAccount implements ICoinAccount {
-    // --------------------------------------------------------------------------
-    //
-    //  Static Properties
-    //
-    // --------------------------------------------------------------------------
-
-    public static PREFIX = '→coin~account';
-
-    // --------------------------------------------------------------------------
-    //
-    //  Static Methods
-    //
-    // --------------------------------------------------------------------------
-
-    public static create(coin: UID, owner: UID): CoinAccount {
-        let item = new CoinAccount();
-        item.uid = CoinAccount.createUid(coin, owner);
-        item.held = item.inUse = '0';
-        item.ownerUid = getUid(owner);
-        return item;
-    }
-
-    public static createUid(coin: UID, owner?: UID): string {
-        let item = `${CoinAccount.PREFIX}:${getUid(coin)}`;
-        return !_.isNil(owner) ? `${item}~${getUid(owner)}` : item;
-    }
-
+ 
     // --------------------------------------------------------------------------
     //
     //  Properties
