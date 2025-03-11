@@ -58,44 +58,44 @@ export class CoinAccount implements ICoinAccount {
 
     public emit(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGranterThanZeroError('Emitting amount must be granter than zero', amount);
+            throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         this.inUse = MathUtil.add(this.inUse, amount);
     }
 
     public emitHeld(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGranterThanZeroError('Emitting amount must be granter than zero', amount);
+            throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         this.held = MathUtil.add(this.held, amount);
     }
 
     public burn(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGranterThanZeroError('Burning amount must be granter than zero', amount);
+            throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         if (MathUtil.greaterThan(amount, this.inUse)) {
-            throw new CoinBalanceMustBeGranterThanAmountError('Burning amount must be less than "isUse" balance', { inUse: this.inUse, amount });
+            throw new CoinBalanceMustBeGranterThanAmountError({ expected: this.inUse, value: amount });
         }
         this.inUse = MathUtil.subtract(this.inUse, amount);
     }
 
     public burnHeld(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGranterThanZeroError('Burning amount must be granter than zero', amount);
+            throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         if (MathUtil.greaterThan(amount, this.held)) {
-            throw new CoinBalanceMustBeGranterThanAmountError('Burning amount must be less than "held" balance', { held: this.held, amount });
+            throw new CoinBalanceMustBeGranterThanAmountError({ expected: this.held, value: amount });
         }
         this.held = MathUtil.subtract(this.held, amount);
     }
 
     public hold(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGranterThanZeroError('Holding amount must be granter than zero', amount);
+            throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         if (MathUtil.greaterThan(amount, this.inUse)) {
-            throw new CoinBalanceMustBeGranterThanAmountError('Coin account "inUse" balance less than holding amount', { inUse: this.inUse, amount });
+            throw new CoinBalanceMustBeGranterThanAmountError({ expected: this.inUse, value: amount });
         }
         this.held = MathUtil.add(this.held, amount);
         this.inUse = MathUtil.subtract(this.inUse, amount);
@@ -103,10 +103,10 @@ export class CoinAccount implements ICoinAccount {
 
     public unhold(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGranterThanZeroError('Unholding amount must be granter than zero',);
+            throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         if (MathUtil.greaterThan(amount, this.held)) {
-            throw new CoinBalanceMustBeGranterThanAmountError('Coin account "held" balance less than unholding amount', { held: this.held, amount });
+            throw new CoinBalanceMustBeGranterThanAmountError({ expected: this.held, value: amount });
         }
         this.held = MathUtil.subtract(this.held, amount);
         this.inUse = MathUtil.add(this.inUse, amount);
@@ -122,7 +122,7 @@ export class CoinAccount implements ICoinAccount {
         let item = this.getTotal();
         return _.isNil(item) || MathUtil.equals(item, '0');
     }
-    
+
     public getTotal(): string {
         return MathUtil.add(this.held, this.inUse);
     }
@@ -136,10 +136,10 @@ export interface ICoinAccount extends IUIDable {
 
     isEmpty(): boolean;
     getTotal(): string;
-    
+
     emit(amount: string): void;
     emitHeld(amount: string): void;
-    
+
     burn(amount: string): void;
     burnHeld(amount: string): void;
 
