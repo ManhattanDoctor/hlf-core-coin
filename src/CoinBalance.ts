@@ -90,4 +90,9 @@ export interface ICoinBalance extends ICoinAccount {
     total: string;
     burned: string;
     emitted: string;
+
+    transfer(amount: string): void;
+    transferToHeld(amount: string): void;
+    transferFromHeld(amount: string): void;
+    transferFromToHeld(amount: string): void;
 }
