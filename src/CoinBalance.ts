@@ -43,25 +43,37 @@ export class CoinBalance extends CoinAccount {
     //
     // --------------------------------------------------------------------------
 
-    public emit(amount: string): void {
-        super.emit(amount);
+    public add(amount: string): void {
+        super.add(amount);
         this.emitted = MathUtil.add(this.emitted, amount);
     }
 
-    public burn(amount: string): void {
-        super.burn(amount);
+    public remove(amount: string): void {
+        super.remove(amount);
         this.burned = MathUtil.add(this.burned, amount);
     }
 
-    public emitHeld(amount: string): void {
-        super.emitHeld(amount);
+    public addHeld(amount: string): void {
+        super.addHeld(amount);
         this.emitted = MathUtil.add(this.emitted, amount);
     }
 
-    public burnHeld(amount: string): void {
-        super.burnHeld(amount);
+    public removeHeld(amount: string): void {
+        super.removeHeld(amount);
         this.burned = MathUtil.add(this.burned, amount);
     }
+
+    public transfer(amount: string): void { }
+
+    public transferFromHeld(amount: string): void {
+        this.unhold(amount);
+    }
+
+    public transferToHeld(amount: string): void {
+        this.hold(amount);
+    }
+
+    public transferFromToHeld(amount: string): void { }
 
     // --------------------------------------------------------------------------
     //

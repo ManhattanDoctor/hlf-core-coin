@@ -30,21 +30,21 @@ export class CoinAccount implements ICoinAccount {
     //
     // --------------------------------------------------------------------------
 
-    public emit(amount: string): void {
+    public add(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
             throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         this.inUse = MathUtil.add(this.inUse, amount);
     }
 
-    public emitHeld(amount: string): void {
+    public addHeld(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
             throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         this.held = MathUtil.add(this.held, amount);
     }
 
-    public burn(amount: string): void {
+    public remove(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
             throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
@@ -54,7 +54,7 @@ export class CoinAccount implements ICoinAccount {
         this.inUse = MathUtil.subtract(this.inUse, amount);
     }
 
-    public burnHeld(amount: string): void {
+    public removeHeld(amount: string): void {
         if (MathUtil.lessThanOrEqualTo(amount, '0')) {
             throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
@@ -111,11 +111,11 @@ export interface ICoinAccount extends IUIDable {
     isEmpty(): boolean;
     getTotal(): string;
 
-    emit(amount: string): void;
-    emitHeld(amount: string): void;
+    add(amount: string): void;
+    addHeld(amount: string): void;
 
-    burn(amount: string): void;
-    burnHeld(amount: string): void;
+    remove(amount: string): void;
+    removeHeld(amount: string): void;
 
     hold(amount: string): void;
     unhold(amount: string): void;
