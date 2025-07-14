@@ -2,10 +2,11 @@
 import { MathUtil, IUIDable } from '@ts-core/common';
 import { IsString, IsNumberString } from 'class-validator';
 import { CoinAmountMustBeGranterThanZeroError, CoinBalanceMustBeGranterThanAmountError } from './Error';
+import { CoinAccountUtil } from './CoinAccountUtil';
 import * as _ from 'lodash';
 
 export class CoinAccount implements ICoinAccount {
- 
+
     // --------------------------------------------------------------------------
     //
     //  Properties
@@ -49,7 +50,7 @@ export class CoinAccount implements ICoinAccount {
             throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         if (MathUtil.greaterThan(amount, this.inUse)) {
-            throw new CoinBalanceMustBeGranterThanAmountError({ expected: this.inUse, value: amount });
+            throw new CoinBalanceMustBeGranterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: amount });
         }
         this.inUse = MathUtil.subtract(this.inUse, amount);
     }
@@ -59,7 +60,7 @@ export class CoinAccount implements ICoinAccount {
             throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         if (MathUtil.greaterThan(amount, this.held)) {
-            throw new CoinBalanceMustBeGranterThanAmountError({ expected: this.held, value: amount });
+            throw new CoinBalanceMustBeGranterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: amount });
         }
         this.held = MathUtil.subtract(this.held, amount);
     }
@@ -69,7 +70,7 @@ export class CoinAccount implements ICoinAccount {
             throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         if (MathUtil.greaterThan(amount, this.inUse)) {
-            throw new CoinBalanceMustBeGranterThanAmountError({ expected: this.inUse, value: amount });
+            throw new CoinBalanceMustBeGranterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: amount });
         }
         this.held = MathUtil.add(this.held, amount);
         this.inUse = MathUtil.subtract(this.inUse, amount);
@@ -80,7 +81,7 @@ export class CoinAccount implements ICoinAccount {
             throw new CoinAmountMustBeGranterThanZeroError(amount);
         }
         if (MathUtil.greaterThan(amount, this.held)) {
-            throw new CoinBalanceMustBeGranterThanAmountError({ expected: this.held, value: amount });
+            throw new CoinBalanceMustBeGranterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: amount });
         }
         this.held = MathUtil.subtract(this.held, amount);
         this.inUse = MathUtil.add(this.inUse, amount);

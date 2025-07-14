@@ -29,10 +29,16 @@ export class CoinAmountMustBeGranterThanZeroError extends Error<string> {
         super(ErrorCode.COIN_AMOUNT_MUST_BE_GRANTER_THAN_ZERO, amount)
     }
 }
-export class CoinBalanceMustBeGranterThanAmountError extends Error<IInvalidValue<string>> {
-    constructor(details: IInvalidValue<string>) {
+export class CoinBalanceMustBeGranterThanAmountError extends Error<ICoinBalanceDetails> {
+    constructor(details: ICoinBalanceDetails) {
         super(ErrorCode.COIN_BALANCE_MUST_BE_GRANTER_THAN_AMOUNT, details)
     }
+}
+
+export interface ICoinBalanceDetails {
+    current: string;
+    coinUid: string;
+    required: string;
 }
 
 export interface IInvalidValue<T = any> {
