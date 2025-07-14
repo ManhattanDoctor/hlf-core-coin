@@ -24,14 +24,19 @@ export class Error<T = void> extends ExtendedError<T, ErrorCode> {
     }
 }
 
-export class CoinAmountMustBeGranterThanZeroError extends Error<string> {
+export class CoinAmountMustBeGreaterThanZeroError extends Error<string> {
     constructor(amount: string) {
-        super(ErrorCode.COIN_AMOUNT_MUST_BE_GRANTER_THAN_ZERO, amount)
+        super(ErrorCode.COIN_AMOUNT_MUST_BE_GREATER_THAN_ZERO, amount)
     }
 }
-export class CoinBalanceMustBeGranterThanAmountError extends Error<ICoinBalanceDetails> {
+export class CoinAmountMustBeGreaterOrEqualsZeroError extends Error<string> {
+    constructor(amount: string) {
+        super(ErrorCode.COIN_AMOUNT_MUST_BE_GREATER_OR_EQUALS_ZERO, amount)
+    }
+}
+export class CoinBalanceMustBeGreaterThanAmountError extends Error<ICoinBalanceDetails> {
     constructor(details: ICoinBalanceDetails) {
-        super(ErrorCode.COIN_BALANCE_MUST_BE_GRANTER_THAN_AMOUNT, details)
+        super(ErrorCode.COIN_BALANCE_MUST_BE_GREATER_THAN_AMOUNT, details)
     }
 }
 
@@ -48,6 +53,8 @@ export interface IInvalidValue<T = any> {
 }
 
 export enum ErrorCode {
-    COIN_AMOUNT_MUST_BE_GRANTER_THAN_ZERO = 'HLF_COIN_AMOUNT_MUST_BE_GRANTER_THAN_ZERO',
-    COIN_BALANCE_MUST_BE_GRANTER_THAN_AMOUNT = 'HLF_COIN_BALANCE_MUST_BE_GRANTER_THAN_AMOUNT',
+    COIN_AMOUNT_MUST_BE_GREATER_THAN_ZERO = 'HLF_COIN_AMOUNT_MUST_BE_GREATER_THAN_ZERO',
+    COIN_AMOUNT_MUST_BE_GREATER_OR_EQUALS_ZERO = 'HLF_COIN_AMOUNT_MUST_BE_GREATER_OR_EQUALS_ZERO',
+    //
+    COIN_BALANCE_MUST_BE_GREATER_THAN_AMOUNT = 'HLF_COIN_BALANCE_MUST_BE_GREATER_THAN_AMOUNT',
 }
