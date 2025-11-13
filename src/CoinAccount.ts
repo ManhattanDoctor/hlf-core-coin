@@ -87,6 +87,18 @@ export class CoinAccount implements ICoinAccount {
         this.inUse = MathUtil.add(this.inUse, amount);
     }
 
+    public nullify(): string {
+        let amount = this.inUse;
+        this.inUse = '0';
+        return amount;
+    }
+
+    public nullifyHeld(): string {
+        let amount = this.held;
+        this.held = '0';
+        return amount;
+    }
+
     // --------------------------------------------------------------------------
     //
     //  Public Properties

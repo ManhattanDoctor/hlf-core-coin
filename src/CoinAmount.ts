@@ -7,8 +7,8 @@ export interface ICoinAmount {
 
 export class CoinAmount implements ICoinAmount {
     @IsNumberString()
-    value: string;
+    public value: string;
 
     @IsString()
-    coinUid: string;
+    public coinUid: string;
 }

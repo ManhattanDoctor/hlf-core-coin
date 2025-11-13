@@ -73,6 +73,18 @@ export class CoinBalance extends CoinAccount {
         this.hold(amount);
     }
 
+    public nullify(): string {
+        let amount = super.nullify();
+        this.burned = MathUtil.add(this.burned, amount);
+        return amount;
+    }
+
+    public nullifyHeld(): string {
+        let amount = super.nullify();
+        this.burned = MathUtil.add(this.burned, amount);
+        return amount;
+    }
+
     public transferFromToHeld(amount: string): void { }
 
     // --------------------------------------------------------------------------
