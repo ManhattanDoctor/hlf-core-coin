@@ -5,6 +5,7 @@ export enum CommandName {
     COIN_BURN = 'CoinBurn',
     COIN_HOLD = 'CoinHold',
     COIN_UNHOLD = 'CoinUnhold',
+    COIN_NULLIFY = 'CoinNullify',
     COIN_TRANSFER = 'CoinTransfer',
     COIN_BALANCE_GET = 'CoinBalanceGet',
 }

@@ -16,11 +16,11 @@ export class CoinEditedEvent extends CoinEvent<ICoinEditedEventDto> {
 
 export class CoinEditedEventDto implements ICoinEditedEventDto {
     @IsNumberString()
-    amount: string;
+    public amount: string;
 
     @Matches(CoinUtil.UID_REG_EXP)
-    coinUid: string;
+    public coinUid: string;
 
     @Matches(CoinUtil.OBJECT_UID_REG_EXP)
-    objectUid: string;
+    public objectUid: string;
 }

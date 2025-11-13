@@ -12,6 +12,8 @@ export * from './CoinTransferCommand';
 export * from './CoinTransferredEvent';
 export * from './CoinUnholdCommand';
 export * from './CoinUnholdedEvent';
+export * from './CoinNullifyCommand';
+export * from './CoinNullifiedEvent';
 //
 export * from './Event';
 export * from './Command';
