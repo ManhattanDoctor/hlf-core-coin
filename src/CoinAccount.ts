@@ -132,4 +132,7 @@ export interface ICoinAccount extends IUIDable {
 
     hold(amount: string): void;
     unhold(amount: string): void;
+
+    nullify(): string;
+    nullifyHeld(): string;
 }
