@@ -1,12 +1,8 @@
 import { TransformUtil } from "@ts-core/common";
-import { Matches, IsNumberString } from 'class-validator';
 import { CoinEvent, ICoinEventDto } from "./CoinEvent";
-import { CoinUtil } from "../CoinUtil";
+import { CoinObjectAmount, ICoinObjectAmount } from "../CoinAmount";
 
-export interface ICoinEditedEventDto extends ICoinEventDto {
-    amount: string;
-    objectUid: string;
-}
+export interface ICoinEditedEventDto extends ICoinEventDto, ICoinObjectAmount { }
 
 export class CoinEditedEvent extends CoinEvent<ICoinEditedEventDto> {
     constructor(name: string, data: ICoinEditedEventDto) {
@@ -14,13 +10,4 @@ export class CoinEditedEvent extends CoinEvent<ICoinEditedEventDto> {
     }
 }
 
-export class CoinEditedEventDto implements ICoinEditedEventDto {
-    @IsNumberString()
-    public amount: string;
-
-    @Matches(CoinUtil.UID_REG_EXP)
-    public coinUid: string;
-
-    @Matches(CoinUtil.OBJECT_UID_REG_EXP)
-    public objectUid: string;
-}
+export class CoinEditedEventDto extends CoinObjectAmount implements ICoinEditedEventDto { }

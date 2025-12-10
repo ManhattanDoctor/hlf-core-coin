@@ -38,7 +38,7 @@ export class CoinNullifyDto extends InitiatedDto {
     @Matches(CoinUtil.OBJECT_UID_REG_EXP)
     public objectUid: string;
 
-    @IsString()
     @IsOptional()
+    @IsString()
     public transactionHash?: string;
 }

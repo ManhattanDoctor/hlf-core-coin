@@ -3,6 +3,7 @@ import { Matches, IsString, IsNumberString, IsOptional } from 'class-validator';
 import { HlfTransportCommandAsync, InitiatedDto } from '@hlf-core/common';
 import { CommandName } from './Command';
 import { CoinUtil } from '../CoinUtil';
+import { CoinObjectAmount, ICoinObjectAmount } from '../CoinAmount';
 
 export class CoinEmitCommand extends HlfTransportCommandAsync<ICoinEmitDto, void> {
     // --------------------------------------------------------------------------
@@ -24,24 +25,16 @@ export class CoinEmitCommand extends HlfTransportCommandAsync<ICoinEmitDto, void
     }
 }
 
-export interface ICoinEmitDto extends InitiatedDto {
-    amount: string;
-    coinUid: string;
-    objectUid: string;
+export interface ICoinEmitDto extends ICoinObjectAmount, InitiatedDto {
     transactionHash?: string;
 }
 
-export class CoinEmitDto extends InitiatedDto {
-    @IsNumberString()
-    public amount: string;
-
-    @Matches(CoinUtil.UID_REG_EXP)
-    public coinUid: string;
-
-    @Matches(CoinUtil.OBJECT_UID_REG_EXP)
-    public objectUid: string;
-
-    @IsString()
+export class CoinEmitDto extends CoinObjectAmount implements ICoinEmitDto {
     @IsOptional()
+    @IsString()
+    public initiatorUid?: string;
+
+    @IsOptional()
+    @IsString()
     public transactionHash?: string;
 }

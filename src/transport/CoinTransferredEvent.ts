@@ -1,6 +1,7 @@
 import { TransportEvent } from '@ts-core/common';
 import { Event } from './Event';
 import { ICoinEventDto } from './CoinEvent';
+import { ICoinObjectAmount } from '../CoinAmount';
 
 export class CoinTransferredEvent extends TransportEvent<ICoinTransferEventDto> {
     // --------------------------------------------------------------------------
@@ -21,8 +22,6 @@ export class CoinTransferredEvent extends TransportEvent<ICoinTransferEventDto> 
         super(CoinTransferredEvent.NAME, data);
     }
 }
-export interface ICoinTransferEventDto extends ICoinEventDto {
+export interface ICoinTransferEventDto extends ICoinEventDto, ICoinObjectAmount {
     to: string;
-    from: string;
-    amount: string;
 }

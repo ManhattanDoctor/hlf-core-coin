@@ -26,6 +26,7 @@ export class CoinNullifiedEvent extends CoinEvent<ICoinNullifiedEventDto> {
 export interface ICoinNullifiedEventDto extends ICoinEventDto {
     objectUid: string;
 }
+
 export class CoinNullifiedEventDto implements ICoinNullifiedEventDto {
     @Matches(CoinUtil.UID_REG_EXP)
     public coinUid: string;

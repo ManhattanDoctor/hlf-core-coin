@@ -45,7 +45,7 @@ export class CoinGetDto<T extends ICoin = ICoin> implements ICoinGetDto<T> {
     @Matches(CoinUtil.UID_REG_EXP)
     public uid: string;
 
-    @IsArray()
     @IsOptional()
+    @IsArray()
     public details?: Array<keyof T>;
 }
