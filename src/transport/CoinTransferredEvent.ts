@@ -23,5 +23,5 @@ export class CoinTransferredEvent extends TransportEvent<ICoinTransferEventDto> 
     }
 }
 export interface ICoinTransferEventDto extends ICoinEventDto, ICoinObjectAmount {
-    target: string;
+    targetUid: string;
 }
