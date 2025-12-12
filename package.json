@@ -1,6 +1,6 @@
 {
     "name": "@hlf-core/coin",
-    "version": "3.2.29",
+    "version": "3.2.30",
     "description": "Professional TypeScript library for token management in blockchain applications with balance tracking, hold/unhold system, and Hyperledger Fabric integration",
     "main": "./cjs/public-api.js",
     "module": "./esm/public-api.js",
