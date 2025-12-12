@@ -9,6 +9,18 @@ export class CoinAccount implements ICoinAccount {
 
     // --------------------------------------------------------------------------
     //
+    //  Static Methods
+    //
+    // --------------------------------------------------------------------------
+
+    public static create(): CoinAccount {
+        let item = new CoinAccount();
+        item.held = item.inUse = '0';
+        return item;
+    }
+
+    // --------------------------------------------------------------------------
+    //
     //  Properties
     //
     // --------------------------------------------------------------------------
@@ -31,72 +43,72 @@ export class CoinAccount implements ICoinAccount {
     //
     // --------------------------------------------------------------------------
 
-    public add(amount: string): void {
-        if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGreaterThanZeroError(amount);
+    public add(value: string): void {
+        if (MathUtil.lessThanOrEqualTo(value, '0')) {
+            throw new CoinAmountMustBeGreaterThanZeroError(value);
         }
-        this.inUse = MathUtil.add(this.inUse, amount);
+        this.inUse = MathUtil.add(this.inUse, value);
     }
 
-    public addHeld(amount: string): void {
-        if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGreaterThanZeroError(amount);
+    public addHeld(value: string): void {
+        if (MathUtil.lessThanOrEqualTo(value, '0')) {
+            throw new CoinAmountMustBeGreaterThanZeroError(value);
         }
-        this.held = MathUtil.add(this.held, amount);
+        this.held = MathUtil.add(this.held, value);
     }
 
-    public remove(amount: string): void {
-        if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGreaterThanZeroError(amount);
+    public remove(value: string): void {
+        if (MathUtil.lessThanOrEqualTo(value, '0')) {
+            throw new CoinAmountMustBeGreaterThanZeroError(value);
         }
-        if (MathUtil.greaterThan(amount, this.inUse)) {
-            throw new CoinBalanceMustBeGreaterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: amount });
+        if (MathUtil.greaterThan(value, this.inUse)) {
+            throw new CoinBalanceMustBeGreaterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: value });
         }
-        this.inUse = MathUtil.subtract(this.inUse, amount);
+        this.inUse = MathUtil.subtract(this.inUse, value);
     }
 
-    public removeHeld(amount: string): void {
-        if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGreaterThanZeroError(amount);
+    public removeHeld(value: string): void {
+        if (MathUtil.lessThanOrEqualTo(value, '0')) {
+            throw new CoinAmountMustBeGreaterThanZeroError(value);
         }
-        if (MathUtil.greaterThan(amount, this.held)) {
-            throw new CoinBalanceMustBeGreaterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: amount });
+        if (MathUtil.greaterThan(value, this.held)) {
+            throw new CoinBalanceMustBeGreaterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.held, required: value });
         }
-        this.held = MathUtil.subtract(this.held, amount);
+        this.held = MathUtil.subtract(this.held, value);
     }
 
-    public hold(amount: string): void {
-        if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGreaterThanZeroError(amount);
+    public hold(value: string): void {
+        if (MathUtil.lessThanOrEqualTo(value, '0')) {
+            throw new CoinAmountMustBeGreaterThanZeroError(value);
         }
-        if (MathUtil.greaterThan(amount, this.inUse)) {
-            throw new CoinBalanceMustBeGreaterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: amount });
+        if (MathUtil.greaterThan(value, this.inUse)) {
+            throw new CoinBalanceMustBeGreaterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: value });
         }
-        this.held = MathUtil.add(this.held, amount);
-        this.inUse = MathUtil.subtract(this.inUse, amount);
+        this.held = MathUtil.add(this.held, value);
+        this.inUse = MathUtil.subtract(this.inUse, value);
     }
 
-    public unhold(amount: string): void {
-        if (MathUtil.lessThanOrEqualTo(amount, '0')) {
-            throw new CoinAmountMustBeGreaterThanZeroError(amount);
+    public unhold(value: string): void {
+        if (MathUtil.lessThanOrEqualTo(value, '0')) {
+            throw new CoinAmountMustBeGreaterThanZeroError(value);
         }
-        if (MathUtil.greaterThan(amount, this.held)) {
-            throw new CoinBalanceMustBeGreaterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.inUse, required: amount });
+        if (MathUtil.greaterThan(value, this.held)) {
+            throw new CoinBalanceMustBeGreaterThanAmountError({ coinUid: CoinAccountUtil.decomposeUid(this.uid).coinUid, current: this.held, required: value });
         }
-        this.held = MathUtil.subtract(this.held, amount);
-        this.inUse = MathUtil.add(this.inUse, amount);
+        this.held = MathUtil.subtract(this.held, value);
+        this.inUse = MathUtil.add(this.inUse, value);
     }
 
     public nullify(): string {
-        let amount = this.inUse;
+        let value = this.inUse;
         this.inUse = '0';
-        return amount;
+        return value;
     }
 
     public nullifyHeld(): string {
-        let amount = this.held;
+        let value = this.held;
         this.held = '0';
-        return amount;
+        return value;
     }
 
     // --------------------------------------------------------------------------
@@ -124,14 +136,14 @@ export interface ICoinAccount extends IUIDable {
     isEmpty(): boolean;
     getTotal(): string;
 
-    add(amount: string): void;
-    addHeld(amount: string): void;
+    add(value: string): void;
+    addHeld(value: string): void;
 
-    remove(amount: string): void;
-    removeHeld(amount: string): void;
+    remove(value: string): void;
+    removeHeld(value: string): void;
 
-    hold(amount: string): void;
-    unhold(amount: string): void;
+    hold(value: string): void;
+    unhold(value: string): void;
 
     nullify(): string;
     nullifyHeld(): string;

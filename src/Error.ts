@@ -25,13 +25,13 @@ export class Error<T = void> extends ExtendedError<T, ErrorCode> {
 }
 
 export class CoinAmountMustBeGreaterThanZeroError extends Error<string> {
-    constructor(amount: string) {
-        super(ErrorCode.COIN_AMOUNT_MUST_BE_GREATER_THAN_ZERO, amount)
+    constructor(value: string) {
+        super(ErrorCode.COIN_AMOUNT_MUST_BE_GREATER_THAN_ZERO, value)
     }
 }
 export class CoinAmountMustBeGreaterOrEqualsZeroError extends Error<string> {
-    constructor(amount: string) {
-        super(ErrorCode.COIN_AMOUNT_MUST_BE_GREATER_OR_EQUALS_ZERO, amount)
+    constructor(value: string) {
+        super(ErrorCode.COIN_AMOUNT_MUST_BE_GREATER_OR_EQUALS_ZERO, value)
     }
 }
 export class CoinBalanceMustBeGreaterThanAmountError extends Error<ICoinBalanceDetails> {

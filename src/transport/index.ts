@@ -17,3 +17,4 @@ export * from './CoinNullifiedEvent';
 //
 export * from './Event';
 export * from './Command';
+export * from './ICoinAmountDto';

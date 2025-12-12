@@ -16,9 +16,9 @@ export class CoinUtil {
     public static COIN_ID_MAX = 64;
 
     public static COIN_ID_PATTERN = `[A-Za-z0-9.]{${CoinUtil.COIN_ID_MIN},${CoinUtil.COIN_ID_MAX}}`;
-    public static DECIMALS_PATTERN = '[0-9]*';
-    public static OWNER_UID_PATTERN = '[A-Za-z0-9_]*';
-    public static OBJECT_UID_PATTERN = '[A-Za-z0-9_]*';
+    public static DECIMALS_PATTERN = '[0-9]+';
+    public static OWNER_UID_PATTERN = '[A-Za-z0-9_]+';
+    public static OBJECT_UID_PATTERN = '[A-Za-z0-9_]+';
 
     public static UID_REG_EXP = new RegExp(`^${CoinUtil.PREFIX}_${CoinUtil.OWNER_UID_PATTERN}_${CoinUtil.DECIMALS_PATTERN}_${CoinUtil.COIN_ID_PATTERN}$`);
     public static COIN_ID_REG_EXP = new RegExp(`^${CoinUtil.COIN_ID_PATTERN}$`);
@@ -85,31 +85,29 @@ export class CoinUtil {
     //
     // --------------------------------------------------------------------------
 
-    public static toCent(amount: string, decimals: number): string {
-        if (_.isNil(amount) || _.isNil(decimals)) {
+    public static toCent(value: string, decimals: number): string {
+        if (_.isNil(value) || _.isNil(decimals)) {
             return null;
         }
         CoinUtil.config = { precision: 100, toExpPos: 100, toExpNeg: -100 };
         let constructor = MathUtil.create();
-        let value = MathUtil.pow('10', decimals.toString());
-        let item = new constructor(MathUtil.multiply(amount, value)).toDecimalPlaces(0).toString();
+        let item = new constructor(MathUtil.multiply(value, MathUtil.pow('10', decimals.toString()))).toDecimalPlaces(0).toString();
         CoinUtil.config = null;
         return item;
     }
 
-    public static fromCent(amount: string, decimals: number): string {
-        if (_.isNil(amount) || _.isNil(decimals)) {
+    public static fromCent(value: string, decimals: number): string {
+        if (_.isNil(value) || _.isNil(decimals)) {
             return null;
         }
         CoinUtil.config = { precision: 100, toExpPos: 100, toExpNeg: -100 };
-        let value = MathUtil.pow('10', decimals.toString());
-        let item = MathUtil.divide(amount, value);
+        let item = MathUtil.divide(value, MathUtil.pow('10', decimals.toString()));
         CoinUtil.config = null;
         return item;
     }
 
-    public static toPercent(amount: string, total: string): number {
-        return MathUtil.toNumber(MathUtil.multiply('100', MathUtil.divide(amount, total)));
+    public static toPercent(value: string, total: string): number {
+        return MathUtil.toNumber(MathUtil.multiply('100', MathUtil.divide(value, total)));
     }
 
     // --------------------------------------------------------------------------

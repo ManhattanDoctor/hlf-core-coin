@@ -50,7 +50,7 @@ account.add('1000'); // Эмиссия 1000 токенов
 const transfer = new CoinTransferCommand({
     from: 'user1',
     to: 'user2',
-    amount: '100',
+    value: '100',
     coinUid: coin.uid
 });
 
@@ -112,7 +112,7 @@ const parts = CoinUtil.decomposeUid(coinUid);
 
 // Математические операции
 const cents = CoinUtil.toCent('1.5', 2);     // "150"
-const amount = CoinUtil.fromCent('150', 2);  // "1.5"
+const value = CoinUtil.fromCent('150', 2);  // "1.5"
 const percent = CoinUtil.toPercent('25', '100'); // 25
 
 // Валидация
@@ -128,7 +128,7 @@ import { CoinEmitCommand, CoinEmittedEvent } from '@hlf-core/coin';
 
 // Команда эмиссии
 const emitCommand = new CoinEmitCommand({
-    amount: '10000',
+    value: '10000',
     coinUid: 'coin_issuer_8_MYTOKEN',
     objectUid: 'user1',
     transactionHash: '0x123abc...'
@@ -136,7 +136,7 @@ const emitCommand = new CoinEmitCommand({
 
 // Событие после выполнения
 const emittedEvent = new CoinEmittedEvent({
-    amount: '10000',
+    value: '10000',
     coinUid: 'coin_issuer_8_MYTOKEN',
     objectUid: 'user1'
 });
@@ -151,7 +151,7 @@ import { CoinTransferCommand, CoinTransferredEvent } from '@hlf-core/coin';
 const transferCommand = new CoinTransferCommand({
     from: 'alice',
     to: 'bob',
-    amount: '500',
+    value: '500',
     coinUid: 'coin_issuer_8_MYTOKEN'
 });
 
@@ -159,7 +159,7 @@ const transferCommand = new CoinTransferCommand({
 const transferEvent = new CoinTransferredEvent({
     from: 'alice',
     to: 'bob',
-    amount: '500',
+    value: '500',
     coinUid: 'coin_issuer_8_MYTOKEN'
 });
 ```
@@ -177,14 +177,14 @@ import {
 // Блокировка средств для транзакции
 const holdCommand = new CoinHoldCommand({
     from: 'user1',
-    amount: '100',
+    value: '100',
     coinUid: 'coin_issuer_8_MYTOKEN'
 });
 
 // После завершения транзакции - разблокировка
 const unholdCommand = new CoinUnholdCommand({
     from: 'user1',
-    amount: '100',
+    value: '100',
     coinUid: 'coin_issuer_8_MYTOKEN'
 });
 ```
@@ -195,13 +195,13 @@ const unholdCommand = new CoinUnholdCommand({
 import { CoinBurnCommand, CoinBurnedEvent } from '@hlf-core/coin';
 
 const burnCommand = new CoinBurnCommand({
-    amount: '1000',
+    value: '1000',
     coinUid: 'coin_issuer_8_MYTOKEN',
     objectUid: 'user1'
 });
 
 const burnedEvent = new CoinBurnedEvent({
-    amount: '1000',
+    value: '1000',
     coinUid: 'coin_issuer_8_MYTOKEN',
     objectUid: 'user1'
 });
@@ -213,14 +213,14 @@ const burnedEvent = new CoinBurnedEvent({
 
 ```typescript
 import { 
-    CoinAmountMustBeGreaterThanZeroError,
-    CoinBalanceMustBeGreaterThanAmountError 
+    CoinvalueMustBeGreaterThanZeroError,
+    CoinBalanceMustBeGreaterThanvalueError 
 } from '@hlf-core/coin';
 
 try {
     account.add('-100'); // Отрицательная сумма
 } catch (error) {
-    if (error instanceof CoinAmountMustBeGreaterThanZeroError) {
+    if (error instanceof CoinvalueMustBeGreaterThanZeroError) {
         console.log(`Некорректная сумма: ${error.details}`);
     }
 }
@@ -228,7 +228,7 @@ try {
 try {
     account.remove('5000'); // Недостаточно средств
 } catch (error) {
-    if (error instanceof CoinBalanceMustBeGreaterThanAmountError) {
+    if (error instanceof CoinBalanceMustBeGreaterThanvalueError) {
         console.log(`Недостаточно средств:`, error.details);
         // { coinUid: '...', current: '1000', required: '5000' }
     }

@@ -19,9 +19,8 @@ export class CoinAccountUtil {
     // --------------------------------------------------------------------------
 
     public static create(coin: UID, owner: UID): CoinAccount {
-        let item = new CoinAccount();
+        let item = CoinAccount.create();
         item.uid = CoinAccountUtil.createUid(coin, owner);
-        item.held = item.inUse = '0';
         item.ownerUid = getUid(owner);
         return item;
     }

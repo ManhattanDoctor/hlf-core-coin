@@ -23,5 +23,6 @@ export * from './transport/CoinUnholdCommand';
 export * from './transport/CoinUnholdedEvent';
 export * from './transport/CoinNullifyCommand';
 export * from './transport/CoinNullifiedEvent';
+export * from './transport/ICoinAmountDto';
 export * from './transport/Event';
 export * from './transport/Command';

@@ -1,8 +1,9 @@
 import { TransformUtil } from "@ts-core/common";
 import { CoinEvent, ICoinEventDto } from "./CoinEvent";
-import { CoinObjectAmount, ICoinObjectAmount } from "../CoinAmount";
+import { CoinObjectAmount } from "../CoinAmount";
+import { CoinObjectAmountDto, ICoinObjectAmountDto } from "./ICoinAmountDto";
 
-export interface ICoinEditedEventDto extends ICoinEventDto, ICoinObjectAmount { }
+export interface ICoinEditedEventDto extends ICoinEventDto, ICoinObjectAmountDto { }
 
 export class CoinEditedEvent extends CoinEvent<ICoinEditedEventDto> {
     constructor(name: string, data: ICoinEditedEventDto) {
@@ -10,4 +11,4 @@ export class CoinEditedEvent extends CoinEvent<ICoinEditedEventDto> {
     }
 }
 
-export class CoinEditedEventDto extends CoinObjectAmount implements ICoinEditedEventDto { }
+export class CoinEditedEventDto extends CoinObjectAmountDto implements ICoinEditedEventDto { }

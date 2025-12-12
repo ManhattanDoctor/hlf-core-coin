@@ -13,7 +13,7 @@ export class CoinBalance extends CoinAccount {
 
     public static create(): CoinBalance {
         let item = new CoinBalance();
-        item.emitted = item.burned = item.held = item.inUse = '0';
+        item.held = item.inUse = item.emitted = item.burned = '0';
         return item;
     }
 
@@ -43,49 +43,49 @@ export class CoinBalance extends CoinAccount {
     //
     // --------------------------------------------------------------------------
 
-    public add(amount: string): void {
-        super.add(amount);
-        this.emitted = MathUtil.add(this.emitted, amount);
+    public add(value: string): void {
+        super.add(value);
+        this.emitted = MathUtil.add(this.emitted, value);
     }
 
-    public remove(amount: string): void {
-        super.remove(amount);
-        this.burned = MathUtil.add(this.burned, amount);
+    public remove(value: string): void {
+        super.remove(value);
+        this.burned = MathUtil.add(this.burned, value);
     }
 
-    public addHeld(amount: string): void {
-        super.addHeld(amount);
-        this.emitted = MathUtil.add(this.emitted, amount);
+    public addHeld(value: string): void {
+        super.addHeld(value);
+        this.emitted = MathUtil.add(this.emitted, value);
     }
 
-    public removeHeld(amount: string): void {
-        super.removeHeld(amount);
-        this.burned = MathUtil.add(this.burned, amount);
+    public removeHeld(value: string): void {
+        super.removeHeld(value);
+        this.burned = MathUtil.add(this.burned, value);
     }
 
-    public transfer(amount: string): void { }
+    public transfer(value: string): void { }
 
-    public transferFromHeld(amount: string): void {
-        this.unhold(amount);
+    public transferFromHeld(value: string): void {
+        this.unhold(value);
     }
 
-    public transferToHeld(amount: string): void {
-        this.hold(amount);
+    public transferToHeld(value: string): void {
+        this.hold(value);
     }
 
     public nullify(): string {
-        let amount = super.nullify();
-        this.burned = MathUtil.add(this.burned, amount);
-        return amount;
+        let value = super.nullify();
+        this.burned = MathUtil.add(this.burned, value);
+        return value;
     }
 
     public nullifyHeld(): string {
-        let amount = super.nullify();
-        this.burned = MathUtil.add(this.burned, amount);
-        return amount;
+        let value = super.nullifyHeld();
+        this.burned = MathUtil.add(this.burned, value);
+        return value;
     }
 
-    public transferFromToHeld(amount: string): void { }
+    public transferFromToHeld(value: string): void { }
 
     // --------------------------------------------------------------------------
     //
@@ -103,8 +103,8 @@ export interface ICoinBalance extends ICoinAccount {
     burned: string;
     emitted: string;
 
-    transfer(amount: string): void;
-    transferToHeld(amount: string): void;
-    transferFromHeld(amount: string): void;
-    transferFromToHeld(amount: string): void;
+    transfer(value: string): void;
+    transferToHeld(value: string): void;
+    transferFromHeld(value: string): void;
+    transferFromToHeld(value: string): void;
 }

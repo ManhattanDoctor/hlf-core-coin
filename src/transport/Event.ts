@@ -5,5 +5,5 @@ export enum Event {
     COIN_EMITTED = 'CoinEmitted',
     COIN_UNHOLDED = 'CoinUnholded',
     COIN_NULLIFIED = 'CoinNullified',
-    COIN_TRANSFERRED = 'CoinTransfered',
+    COIN_TRANSFERRED = 'CoinTransferred',
 }

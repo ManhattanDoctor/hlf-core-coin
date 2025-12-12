@@ -1,8 +1,7 @@
 import { TransformUtil } from '@ts-core/common';
-import { IsOptional, IsString } from 'class-validator';
-import { HlfTransportCommandAsync, InitiatedDto } from '@hlf-core/common';
+import { HlfTransportCommandAsync } from '@hlf-core/common';
 import { CommandName } from './Command';
-import { CoinObjectAmount, ICoinObjectAmount } from '../CoinAmount';
+import { CoinObjectAmountDto, ICoinObjectAmountDto } from './ICoinAmountDto';
 
 export class CoinHoldCommand extends HlfTransportCommandAsync<ICoinHoldDto, void> {
     // --------------------------------------------------------------------------
@@ -24,10 +23,6 @@ export class CoinHoldCommand extends HlfTransportCommandAsync<ICoinHoldDto, void
     }
 }
 
-export interface ICoinHoldDto extends ICoinObjectAmount, InitiatedDto { }
+export interface ICoinHoldDto extends ICoinObjectAmountDto { }
 
-export class CoinHoldDto extends CoinObjectAmount implements ICoinHoldDto {
-    @IsOptional()
-    @IsString()
-    public initiatorUid?: string;
-}
+export class CoinHoldDto extends CoinObjectAmountDto implements ICoinHoldDto { }
