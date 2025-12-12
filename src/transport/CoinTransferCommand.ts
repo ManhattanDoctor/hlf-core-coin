@@ -26,10 +26,10 @@ export class CoinTransferCommand extends HlfTransportCommandAsync<ICoinTransferD
 }
 
 export interface ICoinTransferDto extends ICoinObjectAmountDto {
-    to: string;
+    target: string;
 }
 
 export class CoinTransferDto extends CoinObjectAmountDto implements ICoinTransferDto {
     @Matches(CoinUtil.OBJECT_UID_REG_EXP)
-    public to: string;
+    public target: string;
 }
