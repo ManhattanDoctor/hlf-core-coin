@@ -76,7 +76,7 @@ account.add('1000'); // Эмиссия 1000 токенов
 // 3. Перевод токенов
 const transfer = new CoinTransferCommand({
     objectUid: 'user1',  // отправитель
-    to: 'user2',         // получатель
+    targetUid: 'user2',  // получатель
     value: '100',
     coinUid: coin.uid
 });
@@ -107,7 +107,7 @@ account.unhold('50');    // Разблокировка: 50 → inUse
 
 // Проверки
 console.log(account.isEmpty());     // false
-console.log(account.getTotal());    // "1200" (1000 + 200)
+console.log(account.getTotal());    // "1400" (inUse=1150 + held=250)
 ```
 
 #### 📈 CoinBalance - Расширенное управление
@@ -177,7 +177,7 @@ import { CoinTransferCommand, CoinTransferredEvent } from '@hlf-core/coin';
 // Команда перевода
 const transferCommand = new CoinTransferCommand({
     objectUid: 'alice',  // отправитель
-    to: 'bob',           // получатель
+    targetUid: 'bob',    // получатель
     value: '500',
     coinUid: 'coin_issuer_8_MYTOKEN'
 });
@@ -185,7 +185,7 @@ const transferCommand = new CoinTransferCommand({
 // Событие перевода
 const transferEvent = new CoinTransferredEvent({
     objectUid: 'alice',  // отправитель
-    target: 'bob',       // получатель (в событии это target, не to!)
+    targetUid: 'bob',    // получатель
     value: '500',
     coinUid: 'coin_issuer_8_MYTOKEN'
 });
@@ -273,14 +273,14 @@ const removedHeld = account.nullifyHeld(); // Возвращает "1000", held 
 
 ```typescript
 import { 
-    CoinvalueMustBeGreaterThanZeroError,
-    CoinBalanceMustBeGreaterThanvalueError 
+    CoinAmountMustBeGreaterThanZeroError,
+    CoinBalanceMustBeGreaterThanAmountError 
 } from '@hlf-core/coin';
 
 try {
     account.add('-100'); // Отрицательная сумма
 } catch (error) {
-    if (error instanceof CoinvalueMustBeGreaterThanZeroError) {
+    if (error instanceof CoinAmountMustBeGreaterThanZeroError) {
         console.log(`Некорректная сумма: ${error.details}`);
     }
 }
@@ -288,7 +288,7 @@ try {
 try {
     account.remove('5000'); // Недостаточно средств
 } catch (error) {
-    if (error instanceof CoinBalanceMustBeGreaterThanvalueError) {
+    if (error instanceof CoinBalanceMustBeGreaterThanAmountError) {
         console.log(`Недостаточно средств:`, error.details);
         // { coinUid: '...', current: '1000', required: '5000' }
     }
@@ -297,20 +297,13 @@ try {
 
 ## 🔗 Интеграция с Hyperledger Fabric
 
-Библиотека полностью совместима с Hyperledger Fabric:
+Сам пакет `@hlf-core/coin` платформо-нейтрален: он содержит только модели и команды/события, без транспортной логики. Для реального исполнения команд используйте парные пакеты:
 
-```typescript
-import { HlfTransport } from '@hlf-core/common';
+- **`@hlf-core/transport`** — клиентская сторона (отправка команд в chaincode через Fabric Gateway, подписка на блок-события).
+- **`@hlf-core/transport-chaincode`** — chaincode-сторона (приём команд, верификация подписи, диспетчеризация в обработчики).
+- **`@hlf-core/coin-chaincode`** — содержит `CoinService` и `CoinManager`, выполняющие операции `transfer`/`emit`/`burn`/`hold`/`nullify` поверх ledger.
 
-// Выполнение команды в chaincode
-const transport = new HlfTransport();
-const result = await transport.execute(transferCommand);
-
-// Подписка на события
-transport.on('CoinTransferred', (event) => {
-    console.log('Перевод выполнен:', event.data);
-});
-```
+Подписка на события `CoinTransferredEvent`, `CoinEmittedEvent` и т.д. в клиентском коде делается через стандартный механизм событий Fabric, поднимаемый `TransportFabric` (см. README соответствующего пакета).
 
 ## 📊 Система команд и событий
 
@@ -369,7 +362,7 @@ objectAmountDto.initiatorUid = 'system'; // кто инициировал опе
 // Использование в переводах
 const transfer = new CoinTransferCommand({
     objectUid: 'user1',  // отправитель
-    to: 'user2',         // получатель
+    targetUid: 'user2',  // получатель
     value: '100',
     coinUid: 'coin_issuer_8_MYTOKEN',
     initiatorUid: 'admin' // администратор инициировал перевод
