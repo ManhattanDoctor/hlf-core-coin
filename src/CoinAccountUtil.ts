@@ -26,8 +26,8 @@ export class CoinAccountUtil {
     }
 
     public static createUid(coin: UID, owner?: UID): string {
-        let item = `${CoinAccountUtil.PREFIX}:${getUid(coin)}`;
-        return !_.isNil(owner) ? `${item}~${getUid(owner)}` : item;
+        let item = `${CoinAccountUtil.PREFIX}:${getUid(coin)}~`;
+        return !_.isNil(owner) ? `${item}${getUid(owner)}` : item;
     }
 
     public static decomposeUid(coin: UID): ICoinAccountUidDecomposition {
@@ -37,7 +37,11 @@ export class CoinAccountUtil {
         }
         let coinUid = array[1];
         let index = coinUid.indexOf('~');
-        return index === -1 ? { coinUid } : { coinUid: coinUid.substring(0, index), owner: coinUid.substring(index + 1) };
+        if (index === -1) {
+            return { coinUid };
+        }
+        let owner = coinUid.substring(index + 1);
+        return { coinUid: coinUid.substring(0, index), owner: !_.isEmpty(owner) ? owner : undefined };
     }
 }
 
