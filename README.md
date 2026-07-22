@@ -26,7 +26,6 @@
 - [Зависимости](#-зависимости)
 - [Сборка и разработка](#️-сборка-и-разработка)
 - [FAQ](#-faq-часто-задаваемые-вопросы)
-- [Версионирование](#-версионирование)
 - [Безопасность](#-безопасность)
 - [Вклад в проект](#-вклад-в-проект)
 - [Лицензия](#-лицензия)
@@ -145,6 +144,58 @@ const percent = CoinUtil.toPercent('25', '100'); // 25
 // Валидация
 const isValid = CoinUtil.isCoin('coin_user_8_BTC'); // true
 ```
+
+#### 🔑 CoinAccountUtil - Ключи аккаунтов
+
+Аккаунт хранится в состоянии по составному ключу «пространство имён + монета + владелец»:
+
+```
+→coin~account:coin_owner1_8_BTC~user1
+└─ пространство ┘└─── монета ───┘└ владелец ┘
+```
+
+Такой ключ обслуживает два сценария: прочитать один аккаунт по точному ключу и перечислить все аккаунты монеты диапазонным запросом по префиксу. Ключи собирает `StateKey` из `@hlf-core/common`, поэтому разделители и проверка частей едины для всей экосистемы.
+
+```typescript
+// Точный ключ аккаунта — владелец обязателен
+const uid = CoinAccountUtil.createUid('coin_owner1_8_BTC', 'user1');
+// →coin~account:coin_owner1_8_BTC~user1
+
+// Префикс для перечисления всех аккаунтов монеты
+const prefix = CoinAccountUtil.createPrefix('coin_owner1_8_BTC');
+// →coin~account:coin_owner1_8_BTC~
+
+// Префикс всех аккаунтов всех монет
+const all = CoinAccountUtil.createPrefix();
+// →coin~account:
+
+// Разбор ключа обратно на части
+const parts = CoinAccountUtil.decomposeUid(uid);
+// { coinUid: 'coin_owner1_8_BTC', owner: 'user1' }
+
+// Создание аккаунта с готовым ключом
+const account = CoinAccountUtil.create('coin_owner1_8_BTC', 'user1');
+```
+
+**Точный ключ и префикс — разные методы, и это важно.** Префикс поиска обязан заканчиваться разделителем, иначе диапазонный запрос захватит соседние монеты, чей идентификатор начинается так же:
+
+```typescript
+// НЕВЕРНО: префикс без разделителя
+'→coin~account:coin_owner1_8_BTC'
+
+// попадает под него:
+//   →coin~account:coin_owner1_8_BTC~user1           нужный аккаунт
+//   →coin~account:coin_owner1_8_BTC2~user2          ЧУЖАЯ монета BTC2
+//   →coin~account:coin_owner1_8_BTC.SERIES.1~user2  ЧУЖАЯ серийная монета
+
+// ВЕРНО: createPrefix всегда добавляет разделитель
+CoinAccountUtil.createPrefix('coin_owner1_8_BTC');
+// →coin~account:coin_owner1_8_BTC~
+```
+
+Поэтому `createUid` требует владельца, а для поиска существует отдельный `createPrefix` — перепутать их нельзя.
+
+Части ключа проверяются при сборке: пустая часть либо часть, содержащая `~` или `:`, вызывает `StateKeySegmentInvalidError`. Разделитель внутри значения сдвинул бы границу между частями, и поиск по префиксу молча возвращал бы не то.
 
 ## 🎯 Основные операции
 
@@ -789,16 +840,24 @@ CoinUtil.toPercent(value: string, total: string): number
 ### Методы CoinAccountUtil
 
 ```typescript
+// Сборщик ключей пространства аккаунтов
+CoinAccountUtil.PREFIX: string   // →coin~account
+CoinAccountUtil.KEY: StateKey
+
 // Создание аккаунта
 CoinAccountUtil.create(coin: UID, owner: UID): CoinAccount
 
-// Создание UID аккаунта
-CoinAccountUtil.createUid(coin: UID, owner?: UID): string
+// Точный ключ аккаунта — владелец обязателен
+CoinAccountUtil.createUid(coin: UID, owner: UID): string
 // Формат: →coin~account:coin_uid~owner_uid
+
+// Префикс для диапазонного поиска — всегда с завершающим разделителем
+CoinAccountUtil.createPrefix(coin?: UID): string
+// Формат: →coin~account:coin_uid~   либо   →coin~account:   без аргумента
 
 // Разбор UID аккаунта
 CoinAccountUtil.decomposeUid(coin: UID): ICoinAccountUidDecomposition
-// Возвращает: { coinUid: string, owner?: string }
+// Возвращает: { coinUid: string, owner?: string } либо null для чужого пространства
 ```
 
 ### Структура команд и событий
@@ -950,11 +1009,12 @@ function atomicTransfer(from: CoinAccount, to: CoinAccount, amount: string) {
 
 ```json
 {
-    "@hlf-core/common": "~3.2.4"
+    "@hlf-core/common": "~3.2.7"
 }
 ```
 
 **@hlf-core/common** предоставляет:
+- `StateKey` - сборка ключей состояния и префиксов поиска
 - `MathUtil` - утилиты для точных математических операций
 - `TransformUtil` - утилиты для трансформации объектов
 - `HlfTransportCommandAsync` - базовый класс для команд Hyperledger Fabric
@@ -1099,33 +1159,6 @@ if (errors.length > 0) {
     console.log('Ошибки валидации:', errors);
 }
 ```
-
-## 📊 Версионирование
-
-Проект использует [Semantic Versioning](https://semver.org/):
-
-- **MAJOR** (X.0.0) - несовместимые изменения API
-- **MINOR** (x.X.0) - новая функциональность с обратной совместимостью
-- **PATCH** (x.x.X) - исправления ошибок
-
-**Текущая версия: 3.2.28**
-
-### Основные изменения
-
-#### v3.2.28
-- Добавлены DTO классы с поддержкой `initiatorUid`
-- Улучшена документация и примеры
-- Обновлены зависимости
-
-#### v3.2.x
-- Добавлена команда `CoinNullifyCommand`
-- Добавлено событие `CoinEditedEvent`
-- Улучшена типизация
-
-#### v3.x
-- Полная поддержка ES модулей и CommonJS
-- Интеграция с @hlf-core/common
-- Система команд и событий для Hyperledger Fabric
 
 ## 🔒 Безопасность
 
