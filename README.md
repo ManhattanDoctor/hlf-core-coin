@@ -2,7 +2,7 @@
 
 > TypeScript библиотека для управления токенами и их балансами в блокчейн-системах
 
-[![npm version](https://badge.fury.io/js/@hlf-core%2Fcoin.svg)](https://badge.fury.io/js/@hlf-core%2Fcoin)
+[![npm version](https://img.shields.io/npm/v/@hlf-core/coin.svg)](https://www.npmjs.com/package/@hlf-core/coin)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
 ## 📑 Содержание
@@ -1173,41 +1173,23 @@ if (errors.length > 0) {
 3. **Атомарность операций**: Обеспечьте откат изменений при ошибках
 4. **Аудит операций**: Используйте CoinBalance для отслеживания всех изменений
 
-## 📄 Лицензия
+## Лицензия
 
-ISC License
+ISC
 
-Copyright (c) 2024 Renat Gubaev
+## Автор
 
-Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+**Ренат Губаев**
+- Email: renat.gubaev@gmail.com
+- GitHub: [@ManhattanDoctor](https://github.com/ManhattanDoctor)
 
-## 👨‍💻 Автор
+## Ссылки
 
-**Renat Gubaev**
-📧 Email: [renat.gubaev@gmail.com](mailto:renat.gubaev@gmail.com)
-🐙 GitHub: [@ManhattanDoctor](https://github.com/ManhattanDoctor)
+- [GitHub Repository](https://github.com/ManhattanDoctor/hlf-core-coin)
+- [NPM Package](https://www.npmjs.com/package/@hlf-core/coin)
+- [Issue Tracker](https://github.com/ManhattanDoctor/hlf-core-coin/issues)
+- [Hyperledger Fabric Documentation](https://hyperledger-fabric.readthedocs.io/)
 
-## 🙏 Благодарности
+## Поддержка
 
-Спасибо всем контрибьюторам и пользователям библиотеки за обратную связь и помощь в развитии проекта!
-
-## 🔗 Полезные ссылки
-
-- 📦 [NPM Package](https://www.npmjs.com/package/@hlf-core/coin)
-- 🐛 [Issues](https://github.com/ManhattanDoctor/hlf-core-common/issues)
-- 📖 [Documentation](https://github.com/ManhattanDoctor/hlf-core-common#readme)
-- 🏗️ [Hyperledger Fabric](https://hyperledger-fabric.readthedocs.io/)
-- 📚 [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- 🔧 [Class Validator](https://github.com/typestack/class-validator)
-
-## 📈 Статистика проекта
-
-![npm version](https://badge.fury.io/js/@hlf-core%2Fcoin.svg)
-![npm downloads](https://img.shields.io/npm/dm/@hlf-core/coin.svg)
-![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)
-
----
-
-⭐ **Если проект полезен, поставьте звезду на GitHub!**
-
-💬 **Есть вопросы? Создайте [issue](https://github.com/ManhattanDoctor/hlf-core-common/issues) или напишите [email](mailto:renat.gubaev@gmail.com)**
+Если вы нашли баг или у вас есть предложение по улучшению, пожалуйста, создайте issue в [GitHub Issues](https://github.com/ManhattanDoctor/hlf-core-coin/issues).

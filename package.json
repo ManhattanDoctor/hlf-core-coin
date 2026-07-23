@@ -1,7 +1,7 @@
 {
     "name": "@hlf-core/coin",
     "version": "3.2.34",
-    "description": "Professional TypeScript library for token management in blockchain applications with balance tracking, hold/unhold system, and Hyperledger Fabric integration",
+    "description": "TypeScript library for token management in blockchain applications: balances, hold and release of funds, emission and burning with full audit",
     "main": "./cjs/public-api.js",
     "module": "./esm/public-api.js",
     "exports": {
@@ -25,26 +25,22 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ManhattanDoctor/hlf-core-common.git"
+        "url": "git+https://github.com/ManhattanDoctor/hlf-core-coin.git"
     },
     "keywords": [
-        "typescript",
-        "blockchain",
-        "token",
-        "coin",
-        "cryptocurrency",
         "hyperledger",
         "hyperledger-fabric",
-        "balance",
-        "wallet",
-        "escrow",
-        "smart-contract",
+        "fabric",
+        "blockchain",
         "chaincode",
-        "fintech",
-        "defi"
+        "token",
+        "coin",
+        "balance",
+        "digital-asset",
+        "typescript"
     ],
     "bugs": {
-        "url": "https://github.com/ManhattanDoctor/hlf-core-common/issues"
+        "url": "https://github.com/ManhattanDoctor/hlf-core-coin/issues"
     },
-    "homepage": "https://github.com/ManhattanDoctor/hlf-core-common#readme"
+    "homepage": "https://github.com/ManhattanDoctor/hlf-core-coin#readme"
 }
